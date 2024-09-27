@@ -14,7 +14,7 @@ class Chi_Square_Test:
         self.data["count"] = 1
         self.feature = x
         self.label = y
-        self.p_data = self.expected_contingency_table()
+        self.p_data = self.observed_contingency_table()
         self.expected_value_matrix = self.calculate_expected_value_matrix()
         self.calculate_degrees_of_freedom()
 
@@ -22,7 +22,7 @@ class Chi_Square_Test:
         df = (len(self.p_data) - 1) * (len(self.p_data.columns) - 1)
         return df
 
-    def expected_contingency_table(self) -> pd.DataFrame:
+    def observed_contingency_table(self) -> pd.DataFrame:
         grouped_data = self.data.groupby([self.feature, self.label]).agg({'count': 'sum'}).reset_index()
         pivoted_data = grouped_data.pivot_table(columns=[self.feature], index=[self.label], values="count", fill_value=0)
         return pivoted_data
